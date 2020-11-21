@@ -1,6 +1,7 @@
 from subprocess import call
 import os
 import sys
+import stat
 class bcolors:
 	HEADER = '\033[95m'
 	OKBLUE = '\033[94m'
@@ -11,22 +12,23 @@ class bcolors:
 	ENDC = '\033[0m'
 	BOLD = '\033[1m'
 	UNDERLINE = '\033[4m'
+
+def compile(outputName):
+	cmd1 = "cython --embed " + f
+	cmd2 = f"gcc $CFLAGS -I{sys.executable} -o " + outputName + " " + fc + " -lpython3.8 -lpthread -lm -lutil -ldl"
+	call(cmd1, shell = True)
+	call(cmd2, shell = True)
+	st = os.stat(outputName)
+	oct_perm = oct(st.st_mode)
+	oct_perm = str(oct_perm)
+	print("***********")
+	print(oct_perm[-3: ])
+	print("***********")
+	print("Permissions are listed. The output file has not been automatically marked for execution.")
+	print("Successfully compiled.")
+	
 try:
-	def compile():
-		cmd1 = "cython --embed " + f
-		cmd2 = f"gcc $CFLAGS -I{sys.executable} -o " + outputName + " " + fc + " -lpython3.8 -lpthread -lm -lutil -ldl"
-		call(cmd1, shell = True)
-		call(cmd2, shell = True)
-		import stat
-		st = os.stat(outputName)
-		oct_perm = oct(st.st_mode)
-		oct_perm = str(oct_perm)
-		print("***********")
-		print(oct_perm[-3: ])
-		print("***********")
-		print("Permissions are listed. The output file has not been automatically marked for execution.")
-		print("Successfully compiled.")
-	f = str(input("Input the file name including the .pyx extension: "))
+	f = input("Input the file name including the .pyx extension: ")
 	fc = f.replace(".pyx", ".c")
 	while ".pyx" not in f:
 		f = str(input(".pyx not detected. Try again: "))
@@ -37,11 +39,10 @@ try:
 		entries.append(entry.name)
 	for i in range(0, len(entries)):
 		if entries[i] == f:
-			global outputName
-			outputName = str(input("Please enter the desired output name: "))
+			outputName = input("Please enter the desired output name: ")
 			print("File found. Compiling...")
 			found = 1
-			compile()
+			compile(outputName)
 			break
 		else:
 			continue
