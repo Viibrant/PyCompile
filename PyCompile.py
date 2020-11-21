@@ -1,5 +1,6 @@
 from subprocess import call
 import os
+import sys
 class bcolors:
 	HEADER = '\033[95m'
 	OKBLUE = '\033[94m'
@@ -13,7 +14,7 @@ class bcolors:
 try:
 	def compile():
 		cmd1 = "cython --embed " + f
-		cmd2 = "gcc $CFLAGS -I/usr/include/python3.8 -o " + outputName + " " + fc + " -lpython3.8 -lpthread -lm -lutil -ldl"
+		cmd2 = f"gcc $CFLAGS -I{sys.executable} -o " + outputName + " " + fc + " -lpython3.8 -lpthread -lm -lutil -ldl"
 		call(cmd1, shell = True)
 		call(cmd2, shell = True)
 		import stat
