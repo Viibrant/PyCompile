@@ -15,7 +15,7 @@ class bcolors:
 
 def compile(outputName):
 	cmd1 = "cython --embed " + f
-	cmd2 = f"gcc $CFLAGS -I{sys.executable} -o " + outputName + " " + fc + " -lpython3.8 -lpthread -lm -lutil -ldl"
+	cmd2 = f"gcc $CFLAGS -I/usr/include/python3.8 -o " + outputName + " " + fc + " -lpython3.8 -lpthread -lm -lutil -ldl"
 	call(cmd1, shell = True)
 	call(cmd2, shell = True)
 	st = os.stat(outputName)
